@@ -10,7 +10,7 @@ void setup()
 
   encoder.setMinValue(0);
   encoder.setMaxValue(10);
-  encoder.setRotateOver(true);
+  encoder.setRotateOver(false);
   encoder.begin();
 
   Serial.println("Started");
