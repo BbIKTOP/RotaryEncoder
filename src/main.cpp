@@ -22,7 +22,7 @@ void loop()
   if (encoder.hasEvent())
   {
     EncoderEvent event = encoder.getEvent();
-    Serial.println(String(round((double)(millis() / 10)) / 100) + " s : Got event: " + event.toString());
+    Serial.println(String(round((double)(millis() / 10)) / 100) + " s : Got event: " + event);
 
     if (event.getEvent() == EncoderEvent::LONGPRESS && !event.isRotated())
     {
