@@ -163,9 +163,14 @@ long Encoder::setValue(long cv)
 
 long Encoder::setMinValue(long mv)
 {
-	long old = minValue;
+	long old = getMinValue();
 	minValue = mv;
 	minValueSet = true;
+
+	if (getValue() < getMinValue())
+	{
+		setValue(getMinValue());
+	}
 	return (old);
 }
 long Encoder::getMinValue(void)
@@ -184,9 +189,15 @@ void Encoder::removeMinValue()
 
 long Encoder::setMaxValue(long mv)
 {
-	long old = maxValue;
+	long old = getMaxValue();
 	maxValue = mv;
 	maxValueSet = true;
+
+	if (getValue() > getMaxValue())
+	{
+		setValue(getMaxValue());
+	}
+
 	return (old);
 }
 long Encoder::getMaxValue(void)
@@ -209,7 +220,8 @@ bool Encoder::setRotateOver(bool v)
 	rotateOver = v;
 	return (old);
 }
-bool Encoder::getRotateOver(void)
+
+bool Encoder::isRotateOver(void)
 {
 	return (rotateOver);
 }
@@ -241,7 +253,7 @@ void ICACHE_RAM_ATTR Encoder::interruptHandler(void)
 			{
 				encoder.lastButtonPressTime = millis();
 				encoder.lastButtonState = 1;
-				encoder.pressed = 0;
+				encoder.pressed = false;
 
 				// Start timer for this button to check when it will be held long enough to toggle press event
 				encoder.pressTicker.once_ms<int>(encoder.pressBias,
@@ -263,15 +275,17 @@ void ICACHE_RAM_ATTR Encoder::interruptHandler(void)
 				if (buttonHeldTime > encoder.longPressDuration) // Long press occurred
 				{
 					EncoderEvent event(&encoder, EncoderEvent::LONGPRESS, encoder.getValue(),
-									   false, buttonHeldTime - encoder.pressBias);
+									   true, buttonHeldTime - encoder.pressBias, encoder.rotated);
 					encoder.eventBuffer.put(event);
 				}
-				//				else
+				//				else // Generate release for long press?
 				{
 					// Usual press occurred, generate release event
 					EncoderEvent event(&encoder, EncoderEvent::RELEASE, encoder.getValue(),
-									   true, buttonHeldTime - encoder.pressBias);
+									   true, buttonHeldTime - encoder.pressBias, encoder.rotated);
 					encoder.eventBuffer.put(event);
+					encoder.rotated = false;
+					encoder.pressed = false;
 				}
 			}
 			if (buttonState == 1)
@@ -287,7 +301,7 @@ void ICACHE_RAM_ATTR Encoder::interruptHandler(void)
 
 		if ((currentState == 0x10 || currentState == 0x01) && encoder.lastButtonState > 0)
 		{
-			encoder.pressed = 1;
+			encoder.pressed = true;
 			tickerHandler(i); // Has been rotated while pressed, call press handler immediately
 		}
 
@@ -326,9 +340,9 @@ void ICACHE_RAM_ATTR Encoder::interruptHandler(void)
 				EncoderEvent::EventName rotationEvent = EncoderEvent::EventName::ROTATERIGHT;
 				if (encoder.lastDirection < 0)
 					rotationEvent = EncoderEvent::EventName::ROTATELEFT;
-
+				encoder.rotated = true;
 				EncoderEvent event(&encoder, rotationEvent,
-								   encoder.getValue(), encoder.lastButtonState != 0, buttonHeldTime);
+								   encoder.getValue(), encoder.lastButtonState != 0, buttonHeldTime, encoder.rotated);
 				encoder.eventBuffer.put(event);
 			}
 
@@ -365,7 +379,8 @@ void Encoder::tickerHandler(int num)
 
 			// Serial.println("New PRESS event created");
 			EncoderEvent event(&encoder, EncoderEvent::PRESS, encoder.getValue(),
-							   false, 0);
+							   false, 0, false);
+			encoder.rotated = false;
 			// Serial.println("New PRESS event created:" + event.toString());
 			encoder.eventBuffer.put(event);
 		}

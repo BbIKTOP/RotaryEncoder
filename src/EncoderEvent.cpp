@@ -8,17 +8,18 @@
 #include "Encoder.h"
 #include "EncoderEvent.h"
 
-EncoderEvent::EncoderEvent() : EncoderEvent(nullptr, EventName::NONE, 0, 0, 0)
+EncoderEvent::EncoderEvent() : EncoderEvent(nullptr, EventName::NONE, 0, false, 0, false)
 {
 }
 
-EncoderEvent::EncoderEvent(Encoder *encoder, EventName event, int currentValue, bool pressed, int holdTime)
+EncoderEvent::EncoderEvent(Encoder *encoder, EventName event, int currentValue, bool pressed, int holdTime, bool rotated)
 {
     this->encoder = encoder;
     this->event = event;
     this->currentValue = currentValue;
     this->holdTime = holdTime;
     this->pressed = pressed;
+    this->rotated = rotated;
 }
 
 int EncoderEvent::getCurrentValue()
@@ -71,6 +72,16 @@ void EncoderEvent::setPressed(bool pressed)
     this->pressed = pressed;
 }
 
+bool EncoderEvent::isRotated()
+{
+    return (rotated);
+}
+
+void EncoderEvent::setRotated(bool rotated)
+{
+    this->rotated = rotated;
+}
+
 EncoderEvent::operator String()
 {
     return (toString());
@@ -105,11 +116,12 @@ String EncoderEvent::toString(void)
         break;
     }
 
-    res += " event\n";
+    res += " event. ";
 
-    res += "current value=" + String(getCurrentValue()) + "\n";
-    res += "pressed=" + String(isPressed()) + "\n";
-    res += "holdTime=" + String(getHoldTime()) + "\n";
+    res += "Current value=" + String(getCurrentValue()) + ", ";
+    res += "pressed=" + String(isPressed()) + ", ";
+    res += "holdTime=" + String(getHoldTime()) + ", ";
+    res += "rotated=" + String(isRotated());
 
     return (res);
 }

@@ -8,12 +8,12 @@ void setup()
   Serial.begin(115200);
   Serial.println("\n\nStarting");
 
-  encoder.setMinValue(0);
+  encoder.setMinValue(1);
   encoder.setMaxValue(10);
   encoder.setRotateOver(false);
   encoder.begin();
 
-  Serial.println("Started");
+  Serial.println("Started, curent value=" + String(encoder.getValue()));
 }
 
 void loop()
@@ -23,7 +23,12 @@ void loop()
   {
     EncoderEvent event = encoder.getEvent();
     Serial.println(String(round((double)(millis() / 10)) / 100) + " s : Got event: " + event.toString());
+
+    if (event.getEvent() == EncoderEvent::LONGPRESS && !event.isRotated())
+    {
+      encoder.setRotateOver(!encoder.isRotateOver());
+      Serial.println("\nRotate Over now set to " + String(encoder.isRotateOver()) + "\n");
+    }
   }
   delay(0);
 }
-

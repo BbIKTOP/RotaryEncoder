@@ -36,7 +36,8 @@ private:
 
 	int lastButtonState = 0;
 	unsigned long lastButtonPressTime = 0;
-	int pressed = 0;
+	bool pressed = false;
+	bool rotated = false;
 
 	Ticker pressTicker;
 
@@ -91,7 +92,7 @@ public:
 	void removeMaxValue();
 
 	bool setRotateOver(bool);
-	bool getRotateOver(void);
+	bool isRotateOver(void);
 
 	static void iteration(void);
 	static void poll(void);

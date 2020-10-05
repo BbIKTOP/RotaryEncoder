@@ -33,26 +33,30 @@ protected:
 
 	int currentValue;
 	bool pressed;
+	bool rotated;
 	int holdTime;
 
 public:
 	EncoderEvent();
-	EncoderEvent(Encoder *encoder, EventName event, int currentValue, bool pressed, int holdTime);
+	EncoderEvent(Encoder *encoder, EventName event, int currentValue, bool pressed, int holdTime, bool rotated);
 
-	int getCurrentValue();
+	int getCurrentValue(void);
 	void setCurrentValue(int currentValue);
 
-	Encoder *getEncoder();
+	Encoder *getEncoder(void);
 	void setEncoder(Encoder *encoder);
 
-	EventName getEvent();
+	EventName getEvent(void);
 	void setEvent(EventName event);
 
-	int getHoldTime();
+	int getHoldTime(void);
 	void setHoldTime(int holdTime);
 
-	bool isPressed();
+	bool isPressed(void);
 	void setPressed(bool rotatedWhilePressed);
+
+	bool isRotated(void);
+	void setRotated(bool rotated);
 
 	String toString(void);
 	operator String();
