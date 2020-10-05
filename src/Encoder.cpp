@@ -1,5 +1,5 @@
 /*
- * Encoder.ino
+ * Encoder.cpp
  *
  *  Created on: Mar 20, 2019
  *      Author: viktor
