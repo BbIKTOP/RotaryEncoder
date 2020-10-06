@@ -19,7 +19,7 @@ pinL: pin number connected to the encoder's "Rotate Counterclockwise" pin
 pinR: pin number connected to the encoder's "Rotate Clockwise" pin  
 pinB: pin number connected to the encoder's button pin (optional, button presses would not be processed if omitted)  
 
-* To start using encoder in ISR mode, use void Encoder::begin(void)  
+* To start using encoder in the ISR mode, use void Encoder::begin(void)  
 
 * To start using encoder in the poll mode, use void Encoder::beginNoInterrupt(void)  
 In this case, calling void Encoder::poll(void) will be required in loop() in order to detect and collect events  
@@ -69,6 +69,9 @@ Two additional flags are available for each event:
 * bool EncoderEvent::isPressed() indicates, has encoder's button been pressed during event  
 * bool EncoderEvent::isRotated() indicates, has encoder been rotated during event  
 
+To get the time in millis, during which the button is still pressed, use  
+int EncoderEvent::getHoldTime()
+
 ## Usage example
 
 ```c++
@@ -86,7 +89,7 @@ void setup()
   Serial.println("Started, curent value=" + String(encoder.getValue()));
 }
 
-void loop()
+vvoid loop()
 {
 
   if (encoder.hasEvent())
@@ -100,6 +103,11 @@ void loop()
       Serial.println("\nRotate Over now set to " + String(encoder.isRotateOver()) + "\n");
     }
   }
+  else
+  {
+    delay(1);
+  }
+
   delay(0);
 }
 ```

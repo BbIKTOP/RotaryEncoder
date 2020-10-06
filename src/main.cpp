@@ -30,5 +30,10 @@ void loop()
       Serial.println("\nRotate Over now set to " + String(encoder.isRotateOver()) + "\n");
     }
   }
+  else
+  {
+    delay(1);
+  }
+
   delay(0);
 }

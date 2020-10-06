@@ -94,29 +94,29 @@ String EncoderEvent::toString(void)
     switch (event)
     {
     case ROTATELEFT:
-        res += "ROTATELEFT";
+        res += "ROTATELEFT ";
         break;
     case ROTATERIGHT:
         res += "ROTATERIGHT";
         break;
     case PRESS:
-        res += "PRESS";
+        res += "PRESS      ";
         break;
     case LONGPRESS:
-        res += "LONGPRESS";
+        res += "LONGPRESS  ";
         break;
     case RELEASE:
-        res += "RELEASE";
+        res += "RELEASE    ";
         break;
     case NONE:
-        res += "NONE";
+        res += "NONE       ";
         break;
     default:
-        res += "<UNKNOWN>";
+        res += "<UNKNOWN>  ";
         break;
     }
 
-    res += " event. ";
+    res += " : ";
 
     res += "Current value=" + String(getCurrentValue()) + ", ";
     res += "pressed=" + String(isPressed()) + ", ";
