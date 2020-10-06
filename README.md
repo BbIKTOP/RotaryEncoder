@@ -5,7 +5,7 @@ RotaryEncoder ESP Arduino library
 To use rotary encoders in the Arduino ESP applications
 
 ## Architecture
-Encoders generate events. Generated events are stored in the circular buffer. Buffer size can be set by CIRCULAR_FIFO_BUFFER_SIZE (default is 100). Stored events can be retrieved from encoder and processed by the application.
+Encoders generate events. Generated events are stored in the encoder's circular buffer. Buffer size can be set by definin CIRCULAR_FIFO_BUFFER_SIZE (default is 100). Stored events can be retrieved from encoder and processed by the application.
 Encoder has an integer value, associated with it. This value can be changed by rotating the encoder. Encoder's value, unlimited by default, can be limited by min and max boundaries. In case these boundaries are set, encoder could be configured to "rotate over", when limit is reached. In this case, continuous rotation will make encoder's value to be set to the opposite value. For example, let's suppose boundaries set to min=3, max=10. In case current value is 3 and "rotate over" set to true, Rotating encoder counterclockwise will set its value to 10 and vice versa.
 Current value can be obtained by calling getValue method.
 Two usage models are available: using ISR and using poll in the main loop()
