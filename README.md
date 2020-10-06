@@ -2,7 +2,7 @@
 RotaryEncoder ESP Arduino library
 
 ## Purpose
-To utilize rotary encoder
+To use rotary encoders in the Arduino ESP applications
 
 ## Architecture
 Encoders generate events. Generated events are stored in the circular buffer. Buffer size can be set by CIRCULAR_FIFO_BUFFER_SIZE (default is 100). Stored events can be retrieved from encoder and processed by the application.
