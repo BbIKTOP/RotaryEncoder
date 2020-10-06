@@ -13,34 +13,34 @@ Each event is stored in the EncoderEvent object.
 
 ## Encoder Usage
 
-To create an object, use: Encoder::Encoder(int pinL, int pinR, int pinB)
+* To create an object, use: Encoder::Encoder(int pinL, int pinR, int pinB)
 Where:
 pinL: pin number connected to the encoder's "Rotate Counterclockwise" pin
 pinR: pin number connected to the encoder's "Rotate Clockwise" pin
 pinB: pin number connected to the encoder's button pin (optional, button presses would not be processed if omitted)
 
-To start using encoder in ISR mode, use void Encoder::begin(void)
+* To start using encoder in ISR mode, use void Encoder::begin(void)
 
-To start using encoder in the poll mode, use void Encoder::beginNoInterrupt(void)
+* To start using encoder in the poll mode, use void Encoder::beginNoInterrupt(void)
 In this case, calling void Encoder::poll(void) will be required in loop() in order to detect and collect events
 
-To stop using encoder, use void Encoder::end(void)
+* To stop using encoder, use void Encoder::end(void)
 
-To check for waiting events, use bool Encoder::hasEvent(void)
+* To check for waiting events, use bool Encoder::hasEvent(void)
 
-To get the number of the events currently available in the buffer, use int Encoder::getEventsCount(void)
+* To get the number of the events currently available in the buffer, use int Encoder::getEventsCount(void)
 
-To retrieve event from buffer, use EncoderEvent Encoder::getEvent(void)
+* To retrieve event from buffer, use EncoderEvent Encoder::getEvent(void)
 This method will throw an std::underflow_error in case there's no events available. The EncoderEvent object returned, will contain all the information regarding gathered event.
 
-To get current value, use long Encoder::getValue(void)
+* To get current value, use long Encoder::getValue(void)
 
-To prevent jitter, debouncing is applied to the button's events by setting a short delay on event processing. This delay can be changed using long Encoder::setPressBias(long pb). Defaut value is 20ms
+* To prevent jitter, debouncing is applied to the button's events by setting a short delay on event processing. This delay can be changed using long Encoder::setPressBias(long pb). Defaut value is 20ms
 
-long button press generates LONGPRESS event. The threshold time to fire LONGPRESS event can be set by long Encoder::setLongPressDuration(long lpd)
+* long button press generates LONGPRESS event. The threshold time to fire LONGPRESS event can be set by long Encoder::setLongPressDuration(long lpd)
 Where lpd is the long press duration threshold, set in millis
 
-To set, get and clear min and max values, use:
+* To set, get and clear min and max values, use:
 long Encoder::setMinValue(long mv)
 long Encoder::getMinValue(void)
 bool Encoder::isMinValue()
@@ -50,7 +50,7 @@ long Encoder::getMaxValue(void)
 bool Encoder::isMaxValue()
 void Encoder::removeMaxValue()
 
-To control "Rotate Over" behaviour, use:
+* To control "Rotate Over" behaviour, use:
 bool Encoder::setRotateOver(bool v)
 bool Encoder::isRotateOver(void)
 
