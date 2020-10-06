@@ -89,7 +89,7 @@ void setup()
   Serial.println("Started, curent value=" + String(encoder.getValue()));
 }
 
-vvoid loop()
+void loop()
 {
 
   if (encoder.hasEvent())
