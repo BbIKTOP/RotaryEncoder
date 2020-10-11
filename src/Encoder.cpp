@@ -226,6 +226,11 @@ bool Encoder::isRotateOver(void)
 	return (rotateOver);
 }
 
+void Encoder::clear(void)
+{
+	eventBuffer.clear();
+}
+
 void ICACHE_RAM_ATTR Encoder::interruptHandler(void)
 {
 	if (inInterruptFlag > 0)

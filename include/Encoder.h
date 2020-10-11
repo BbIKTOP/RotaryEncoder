@@ -100,6 +100,8 @@ public:
 	int getEventsCount(void);
 	bool hasEvent(void);
 
+	void clear(void);
+
 	EncoderEvent getEvent(void);
 };
 

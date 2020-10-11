@@ -88,6 +88,11 @@ public:
 
 		return (size - begin + end);
 	}
+
+	void clear(void)
+	{
+		begin = end = 0;
+	}
 };
 
 #endif /* FIFO_H_ */
