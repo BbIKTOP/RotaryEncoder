@@ -27,7 +27,17 @@ void loop()
     if (event.getEvent() == EncoderEvent::LONGPRESS && !event.isRotated())
     {
       encoder.setRotateOver(!encoder.isRotateOver());
-      Serial.println("\nRotate Over now set to " + String(encoder.isRotateOver()) + "\n");
+      Serial.println(String(round((double)(millis() / 10)) / 100) + " s : Rotate Over now set to " + String(encoder.isRotateOver()));
+    }
+    if (event.getEvent() == EncoderEvent::ROTATERIGHT && event.isPressed())
+    {
+      encoder.setMaxValue(encoder.getMaxValue() + 1);
+      Serial.println(String(round((double)(millis() / 10)) / 100) + " s : Max value now set to " + String(encoder.getMaxValue()));
+    }
+    if (event.getEvent() == EncoderEvent::ROTATELEFT && event.isPressed())
+    {
+      encoder.setMaxValue(encoder.getMaxValue() - 1);
+      Serial.println(String(round((double)(millis() / 10)) / 100) + " s : Max value now set to " + String(encoder.getMaxValue()));
     }
   }
   else

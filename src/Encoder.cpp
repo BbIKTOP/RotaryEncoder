@@ -160,6 +160,9 @@ long Encoder::setValue(long cv)
 
 long Encoder::setMinValue(long mv)
 {
+	if (mv > getMaxValue())
+		mv = getMaxValue();
+
 	long old = getMinValue();
 	minValue = mv;
 	minValueSet = true;
@@ -186,6 +189,9 @@ void Encoder::removeMinValue()
 
 long Encoder::setMaxValue(long mv)
 {
+	if (mv < getMinValue())
+		mv = getMinValue();
+
 	long old = getMaxValue();
 	maxValue = mv;
 	maxValueSet = true;
