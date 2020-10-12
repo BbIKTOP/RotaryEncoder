@@ -10,7 +10,7 @@ int Encoder::encodersCount = 0;
 Encoder *Encoder::encoders[MAX_ENCODERS];
 volatile int Encoder::inInterruptFlag = 0;
 
-Encoder::Encoder(int pinL, int pinR, int pinB) : eventBuffer()
+Encoder::Encoder(int pinR, int pinL, int pinB = -1) : eventBuffer()
 {
 	if (encodersCount >= MAX_ENCODERS)
 	{
@@ -41,9 +41,6 @@ Encoder::Encoder(int pinL, int pinR, int pinB) : eventBuffer()
 	interruptAttached = false;
 }
 
-Encoder::Encoder(int pinL, int pinR) : Encoder(pinL, pinR, -1)
-{
-}
 Encoder::~Encoder()
 {
 }

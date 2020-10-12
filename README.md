@@ -13,10 +13,10 @@ Each event is stored in the EncoderEvent object.
 
 ## Encoder Usage
 
-* To create an object, use: Encoder::Encoder(int pinL, int pinR, int pinB)  
+* To create an object, use: Encoder::Encoder(int pinR, int pinL, int pinB)  
 Where:  
-pinL: pin number connected to the encoder's "Rotate Counterclockwise" pin  
 pinR: pin number connected to the encoder's "Rotate Clockwise" pin  
+pinL: pin number connected to the encoder's "Rotate Counterclockwise" pin  
 pinB: pin number connected to the encoder's button pin (optional, button presses would not be processed if omitted)  
 
 * To start using encoder in the ISR mode, use void Encoder::begin(void)  

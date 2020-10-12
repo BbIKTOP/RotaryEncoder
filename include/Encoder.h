@@ -56,8 +56,8 @@ private:
 	Fifo<EncoderEvent> eventBuffer;
 
 public:
-	Encoder(int pinL, int pinR, int pinB);
-	Encoder(int pinL, int pinR);
+	Encoder(int pinR, int pinL, int pinB);
+	Encoder(int pinR, int pinL);
 	~Encoder();
 
 	void begin(void);
