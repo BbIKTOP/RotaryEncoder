@@ -8,11 +8,11 @@
 #include "Encoder.h"
 #include "EncoderEvent.h"
 
-EncoderEvent::EncoderEvent() : EncoderEvent(nullptr, EventName::NONE, 0, false, 0, false)
+EncoderEvent::EncoderEvent() : EncoderEvent(nullptr, EventName::NONE, 0, false, 0, false, 0)
 {
 }
 
-EncoderEvent::EncoderEvent(Encoder *encoder, EventName event, int currentValue, bool pressed, int holdTime, bool rotated)
+EncoderEvent::EncoderEvent(Encoder *encoder, EventName event, int currentValue, bool pressed, int holdTime, bool rotated, int direction)
 {
     this->encoder = encoder;
     this->event = event;
@@ -20,6 +20,7 @@ EncoderEvent::EncoderEvent(Encoder *encoder, EventName event, int currentValue, 
     this->holdTime = holdTime;
     this->pressed = pressed;
     this->rotated = rotated;
+    this->direction = direction;
 }
 
 int EncoderEvent::getCurrentValue()
@@ -60,6 +61,16 @@ int EncoderEvent::getHoldTime()
 void EncoderEvent::setHoldTime(int holdTime)
 {
     this->holdTime = holdTime;
+}
+
+int EncoderEvent::getDirection()
+{
+    return (direction);
+}
+
+void EncoderEvent::setDirection(int direction)
+{
+    this->direction = direction;
 }
 
 bool EncoderEvent::isPressed()

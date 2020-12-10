@@ -35,13 +35,17 @@ protected:
 	bool pressed;
 	bool rotated;
 	int holdTime;
+	int direction;
 
 public:
 	EncoderEvent();
-	EncoderEvent(Encoder *encoder, EventName event, int currentValue, bool pressed, int holdTime, bool rotated);
+	EncoderEvent(Encoder *encoder, EventName event, int currentValue, bool pressed, int holdTime, bool rotated, int direction);
 
 	int getCurrentValue(void);
 	void setCurrentValue(int currentValue);
+
+	int getDirection(void);
+	void setDirection(int currentValue);
 
 	Encoder *getEncoder(void);
 	void setEncoder(Encoder *encoder);

@@ -28,6 +28,10 @@ private:
 	long maxValue = 0;
 	bool maxValueSet = 0;
 
+	bool suspended = false;
+	bool rotationSuspended=false;
+	int step = 1;
+
 	bool rotateOver = 0;
 
 	int pinL, pinR, pinB;
@@ -71,7 +75,10 @@ public:
 	int getPinB(void);
 
 	long setLongPressDuration(long);
-	long getlongPressDuration(void);
+	long getLongPressDuration(void);
+
+	int setStep(int);
+	int getStep(void);
 
 	long setPressBias(long);
 	long getPressBias(void);
@@ -93,6 +100,12 @@ public:
 
 	bool setRotateOver(bool);
 	bool isRotateOver(void);
+
+	bool setSuspended(bool);
+	bool isSuspended(void);
+
+	bool setRotationSuspended(bool);
+	bool isRotationSuspended(void);
 
 	static void iteration(void);
 	static void poll(void);

@@ -131,9 +131,20 @@ long Encoder::setLongPressDuration(long lpd)
 	longPressDuration = lpd;
 	return (old);
 }
-long Encoder::getlongPressDuration(void)
+long Encoder::getLongPressDuration(void)
 {
 	return (longPressDuration);
+}
+
+int Encoder::setStep(int step)
+{
+	int old = step;
+	this->step = step;
+	return (old);
+}
+int Encoder::getStep(void)
+{
+	return (step);
 }
 
 long Encoder::setPressBias(long pb)
@@ -229,6 +240,30 @@ bool Encoder::isRotateOver(void)
 	return (rotateOver);
 }
 
+bool Encoder::setSuspended(bool v)
+{
+	bool old = suspended;
+	suspended = v;
+	return (old);
+}
+
+bool Encoder::isSuspended(void)
+{
+	return (suspended);
+}
+
+bool Encoder::setRotationSuspended(bool v)
+{
+	bool old = rotationSuspended;
+	rotationSuspended = v;
+	return (old);
+}
+
+bool Encoder::isRotationSuspended(void)
+{
+	return (rotationSuspended);
+}
+
 void Encoder::clear(void)
 {
 	eventBuffer.clear();
@@ -249,6 +284,10 @@ void ICACHE_RAM_ATTR Encoder::interruptHandler(void)
 		if (!encoder.isInterruptAttached())
 		{
 			continue; // This encoder does not use interrupts
+		}
+		if (encoder.suspended)
+		{
+			return;
 		}
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -283,14 +322,14 @@ void ICACHE_RAM_ATTR Encoder::interruptHandler(void)
 				if (buttonHeldTime > encoder.longPressDuration) // Long press occurred
 				{
 					EncoderEvent event(&encoder, EncoderEvent::LONGPRESS, encoder.getValue(),
-									   true, buttonHeldTime - encoder.pressBias, encoder.rotated);
+									   true, buttonHeldTime - encoder.pressBias, encoder.rotated, encoder.lastDirection);
 					encoder.eventBuffer.put(event);
 				}
 				//				else // Generate release for long press?
 				{
 					// Usual press occurred, generate release event
 					EncoderEvent event(&encoder, EncoderEvent::RELEASE, encoder.getValue(),
-									   true, buttonHeldTime - encoder.pressBias, encoder.rotated);
+									   true, buttonHeldTime - encoder.pressBias, encoder.rotated, encoder.lastDirection);
 					encoder.eventBuffer.put(event);
 					encoder.rotated = false;
 					encoder.pressed = false;
@@ -317,11 +356,11 @@ void ICACHE_RAM_ATTR Encoder::interruptHandler(void)
 		{
 			break;
 		}
-		if (currentState == 0x11) // Final state reached, fire event
+		if (currentState == 0x11 && !encoder.rotationSuspended) // Final state reached, fire event
 		{
 			if (encoder.lastDirection != 0)
 			{
-				encoder.currentValue += encoder.lastDirection;
+				encoder.currentValue += encoder.lastDirection * encoder.step;
 
 				if (encoder.minValueSet && encoder.currentValue < encoder.minValue)
 				{
@@ -350,7 +389,7 @@ void ICACHE_RAM_ATTR Encoder::interruptHandler(void)
 					rotationEvent = EncoderEvent::EventName::ROTATELEFT;
 				encoder.rotated = true;
 				EncoderEvent event(&encoder, rotationEvent,
-								   encoder.getValue(), encoder.lastButtonState != 0, buttonHeldTime, encoder.rotated);
+								   encoder.getValue(), encoder.lastButtonState != 0, buttonHeldTime, encoder.rotated, encoder.lastDirection);
 				encoder.eventBuffer.put(event);
 			}
 
@@ -387,7 +426,7 @@ void Encoder::tickerHandler(int num)
 
 			// Serial.println("New PRESS event created");
 			EncoderEvent event(&encoder, EncoderEvent::PRESS, encoder.getValue(),
-							   false, 0, false);
+							   false, 0, false, encoder.lastDirection);
 			encoder.rotated = false;
 			// Serial.println("New PRESS event created:" + event.toString());
 			encoder.eventBuffer.put(event);
